@@ -64,7 +64,7 @@ def main(pool):
 
                 dts.append(time.time() - t0)
 
-            print("{0}, {1}, {1:.3f}, {2:.3f}".format(n_samples, n_data,
+            print("{0}, {1}, {2:.3f}, {3:.3f}".format(n_samples, n_data,
                                                       np.mean(dts),
                                                       np.std(dts)))
 
