@@ -8,7 +8,7 @@
 
 source ~/.bash_profile
 
-cd /mnt/ceph/users/apricewhelan/projects/thejoker-benchmarks
+cd /mnt/ceph/users/apricewhelan/projects/thejoker-benchmarks/scripts
 
 module load gcc openmpi2 lib/hdf5/1.10.1 intel/mkl/2019-3
 
