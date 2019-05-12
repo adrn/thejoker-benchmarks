@@ -47,14 +47,14 @@ def main(pool):
     n_iter = 3
     for n_samples in 2 ** np.arange(8, 28+1, 2):
         for n_data in 2 ** np.arange(1, 10+1, 1):
-            data = data[rnd.random.choice(n_total_data, n_data, replace=False)]
+            this_data = data[rnd.choice(n_total_data, n_data, replace=False)]
 
             dts = []
             for k in range(n_iter):
                 t0 = time.time()
                 try:
                     samples = joker.rejection_sample(
-                        data=data, prior_cache_file=prior_cache_file,
+                        data=this_data, prior_cache_file=prior_cache_file,
                         n_prior_samples=n_samples)
 
                 except Exception as e:
@@ -63,9 +63,9 @@ def main(pool):
 
                 dts.append(time.time() - t0)
 
-            print("{0}, {1:.3f}, {2:.3f}".format(n_samples,
-                                                 np.mean(dts),
-                                                 np.std(dts)))
+            print("{0}, {1}, {1:.3f}, {2:.3f}".format(n_samples, n_data,
+                                                      np.mean(dts),
+                                                      np.std(dts)))
 
     pool.close()
 
