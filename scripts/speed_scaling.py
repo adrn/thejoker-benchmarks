@@ -53,9 +53,10 @@ def main(pool):
             for k in range(n_iter):
                 t0 = time.time()
                 try:
-                    samples = joker.rejection_sample(
+                    samples = joker.iterative_rejection_sample(
                         data=this_data, prior_cache_file=prior_cache_file,
-                        n_prior_samples=n_samples)
+                        n_prior_samples=n_samples, init_n_process=n_samples,
+                        n_requested_samples=128)
 
                 except Exception as e:
                     print("Failed sampling \n Error: {0}".format(str(e)))
@@ -86,7 +87,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     for l in [joker_logger]:
-        l.setLevel(logging.DEBUG)
+        # l.setLevel(logging.DEBUG)
+        l.setLevel(1)
 
     pool_kwargs = dict(mpi=args.mpi, processes=args.n_procs)
     pool = choose_pool(**pool_kwargs)
