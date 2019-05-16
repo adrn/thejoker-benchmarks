@@ -13,7 +13,8 @@ import time
 from astropy.time import Time
 import astropy.units as u
 import numpy as np
-from schwimmbad import choose_pool
+# from schwimmbad import choose_pool
+from schwimmbad.mpi import MPIAsyncPool
 from thejoker.data import RVData
 from thejoker.log import log as joker_logger
 from thejoker.sampler import TheJoker, JokerParams
@@ -23,7 +24,7 @@ def main(pool):
     seed = 42
     rnd = np.random.RandomState(seed=seed)
 
-    # Generate some fake data (actually from real star...)
+    # Generate some fake data
     n_total_data = 1024
     EPOCH = Time('J2000') + 172.12*u.day
     orbit = KeplerOrbit(P=50*u.day, e=0.57, omega=2.62*u.rad,
@@ -91,6 +92,7 @@ if __name__ == "__main__":
         l.setLevel(1)
 
     pool_kwargs = dict(mpi=args.mpi, processes=args.n_procs)
-    pool = choose_pool(**pool_kwargs)
+    # pool = choose_pool(**pool_kwargs)
 
-    main(pool=pool)
+    with MPIAsyncPool() as pool:
+        main(pool=pool)
